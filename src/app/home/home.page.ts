@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FirebasePluginService } from '../services/firebase-plugin.service';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  public token = 'Cargando';
+  constructor(private fps: FirebasePluginService) {
 
-  constructor() {}
+  }
+
+  onInit() {
+    // this.fps.getToken().then(token => { this.token = token; alert(token); }).catch(error => { this.token = error; console.log(error); })
+  }
 
 }
