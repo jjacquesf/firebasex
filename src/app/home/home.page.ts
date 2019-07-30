@@ -1,19 +1,38 @@
 import { Component } from '@angular/core';
-import { FirebasePluginService } from '../services/firebase-plugin.service';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
+  providers:[Firebase]
 })
+
 export class HomePage {
-  public token = 'Cargando';
-  constructor(private fps: FirebasePluginService) {
+  
+	public token = 'Cargando'
 
-  }
+	constructor(private firebase: Firebase) {
+		
+	}
 
-  onInit() {
-    // this.fps.getToken().then(token => { this.token = token; alert(token); }).catch(error => { this.token = error; console.log(error); })
-  }
+	ngOnInit() {
+
+		this.firebase.getToken().then(token => {
+			console.log(`The token is ${token}`);
+			this.token = token;
+		})
+		.catch(error => console.error('Error getting token', error));
+
+		this.firebase.onNotificationOpen().subscribe(data => {
+			console.log(`User opened a notification ${data}`);
+		});
+
+		this.firebase.onTokenRefresh().subscribe((token: string) => {
+			console.log(`Got a new token ${token}`);
+			this.token = token;
+		});
+
+	}
 
 }
