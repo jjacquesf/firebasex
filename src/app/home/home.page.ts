@@ -2,40 +2,46 @@ import { Component } from '@angular/core';
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  providers:[Firebase,AngularFirestore,AngularFireAuth]
+  providers:[GooglePlus,Facebook,Firebase,AngularFirestore,AngularFireAuth]
 })
 
 export class HomePage {
   
-	public token = 'Cargando'
+	public token = 'Cargando';
+	public collection = null;
 
-	constructor(private firebase: Firebase, private firestone: AngularFirestore, public firebaseAuth: AngularFireAuth) {
+	constructor(
+		private gplus: GooglePlus, 
+		private firebasePlugin: Firebase, 
+		private firestone: AngularFirestore, 
+		private firebaseAuth: AngularFireAuth,
+		private fb: Facebook
+	) {
 		
 		
 		//https://github.com/angular/angularfire2/blob/master/docs/firestore/ documentacion completa
 		
 		//retorna la coleccion de forma asincrona
-		this.collection = this.firestone.collection('tasks');
-
-		//podemos leer la coleccion y suscribirnos para cuando lleguen los documentos
-		
 		//valueChanges regresa solo los datos del documento
 		//this.collection.snapshotChanges().subscribe(tasks => {
-		
-		//snapshotChanges regresa los documentos como objetos
-		this.collection.snapshotChanges().subscribe(tasks => {
+/* 		this.collection = this.firestone.collection('tasks').snapshotChanges().subscribe(tasks => {
 			tasks.forEach(task => {
 				console.log(task.payload);
 				console.log(task.payload.doc.data());
 				console.log(task.payload.doc.id);
 			});
-		});
+		}); */
+
+		//podemos leer la coleccion y suscribirnos para cuando lleguen los documentos
 		
 		//crear un documento
 		//this.collection.add({title: "ejemplo 2222", description: "description 2222"});
@@ -56,17 +62,17 @@ export class HomePage {
 
 	ngOnInit() {
 
-		this.firebase.getToken().then(token => {
+		this.firebasePlugin.getToken().then(token => {
 			console.log(`The token is ${token}`);
 			this.token = token;
 		})
 		.catch(error => console.error('Error getting token', error));
 
-		this.firebase.onNotificationOpen().subscribe(data => {
+		this.firebasePlugin.onNotificationOpen().subscribe(data => {
 			console.log(`User opened a notification ${data}`);
 		});
 
-		this.firebase.onTokenRefresh().subscribe((token: string) => {
+		this.firebasePlugin.onTokenRefresh().subscribe((token: string) => {
 			console.log(`Got a new token ${token}`);
 			this.token = token;
 		});
@@ -88,5 +94,49 @@ export class HomePage {
 			console.log(r);
 		});
 	  }
+	  
+	  
+	login_fb() {
+		this.fb.login(['email']).then((response: FacebookLoginResponse) => {
+			this.login_fb_success(response.authResponse.accessToken);
+			console.log(response.authResponse.accessToken);
+		}).catch((error) => {
+			console.log(error)
+			alert('error:' + error)
+		});
+	  }
+
+	login_fb_success(accessToken: string) {
+		const credential =  firebase.auth.FacebookAuthProvider.credential(accessToken);
+		this.firebaseAuth.auth.signInWithCredential(credential).then((response) => {
+			console.log(response);
+			alert("facebook");
+			alert(JSON.stringify(response));
+		})
+
+	}
+	
+	login_google(){
+	
+		alert("trying google");
+	
+		this.gplus.login({
+			  'webClientId': '260260646101-u7tv7ftbhg3ugjebiei0scfhqmkaeufe.apps.googleusercontent.com',
+			  'offline': true
+		}).then((response) => {
+			alert(JSON.stringify(response));
+			//this.login_google_success(response.idToken);
+		  }).catch((error) => {
+			console.log(error)
+			alert('error:' + JSON.stringify(error))
+		  });
+	}
+	 
+	 login_google_success(idToken){
+		  const credential = firebase.auth.GoogleAuthProvider.credential(idToken);
+		  this.firebaseAuth.auth.signInWithCredential(credential).then((response) => {
+			alert('error:' + JSON.stringify(response))
+		  })
+	 }
 
 }

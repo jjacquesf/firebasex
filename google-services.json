@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "973356860538",
-    "firebase_url": "https://ionic-starter-7ec32.firebaseio.com",
-    "project_id": "ionic-starter-7ec32",
-    "storage_bucket": "ionic-starter-7ec32.appspot.com"
+    "project_number": "260260646101",
+    "firebase_url": "https://mx-lava-test01.firebaseio.com",
+    "project_id": "mx-lava-test01",
+    "storage_bucket": "mx-lava-test01.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:973356860538:android:764d2cb7da3280eb",
+        "mobilesdk_app_id": "1:260260646101:android:764d2cb7da3280eb",
         "android_client_info": {
           "package_name": "io.ionic.starter"
         }
       },
       "oauth_client": [
         {
-          "client_id": "973356860538-8sm4ci76caufbsnh3qhugfgrd6hhc3pn.apps.googleusercontent.com",
+          "client_id": "260260646101-u7tv7ftbhg3ugjebiei0scfhqmkaeufe.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAmweqeamTtvhrRNfn_XB2MJGi0oftyQ3I"
+          "current_key": "AIzaSyCalI7V_O-9LvBreGNudWLIRf6a5ZvWcyA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "973356860538-8sm4ci76caufbsnh3qhugfgrd6hhc3pn.apps.googleusercontent.com",
+              "client_id": "260260646101-u7tv7ftbhg3ugjebiei0scfhqmkaeufe.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

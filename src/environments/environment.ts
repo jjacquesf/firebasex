@@ -9,7 +9,7 @@ export const environment = {
 		authDomain: "mx-lava-test01.firebaseapp.com",
 		databaseURL: "https://mx-lava-test01.firebaseio.com",
 		projectId: "mx-lava-test01",
-		storageBucket: "",
+		storageBucket: "mx-lava-test01.appspot.com",
 		messagingSenderId: "260260646101",
 		appId: "1:260260646101:web:7257d7cb9058b453"
 	}
